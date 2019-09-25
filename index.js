@@ -1,11 +1,26 @@
 var videoshow = require('videoshow')
 
 var images = [
-  'src/step1.jpg',
-  'src/step2.jpg',
-  'src/step3.jpg',
-  'src/step4.jpg',
-  'src/step5.jpg'
+  {
+    path :'src/step1.jpg',
+    caption: 'SAS'
+  },
+  {
+    path :'src/step2.jpg',
+    caption: 'FBI SWAT'
+  },
+  {
+    path :'src/step3.jpg',
+    caption: 'GIGN'
+  },
+  {
+    path :'src/step4.jpg',
+    caption: 'GSG-9'
+  },
+  {
+    path :'src/step5.jpg',
+    caption: 'Spetsnaz'
+  }
 ]
 
 var videoOptions = {
@@ -19,7 +34,25 @@ var videoOptions = {
   audioBitrate: '128k',
   audioChannels: 2,
   format: 'mp4',
-  pixelFormat: 'yuv420p'
+  pixelFormat: 'yuv420p',
+  useSubRipSubtitles: false, // Use ASS/SSA subtitles instead
+  subtitleStyle: {
+    Fontname: 'Verdana',
+    Fontsize: '26',
+    PrimaryColour: '11861244',
+    SecondaryColour: '11861244',
+    TertiaryColour: '11861244',
+    BackColour: '-2147483640',
+    Bold: '2',
+    Italic: '0',
+    BorderStyle: '2',
+    Outline: '2',
+    Shadow: '3',
+    Alignment: '2', // left, middle, right
+    MarginL: '40',
+    MarginR: '60',
+    MarginV: '40'
+  }
 }
 
 videoshow(images, videoOptions)
