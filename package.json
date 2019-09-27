@@ -1,0 +1,23 @@
+{
+  "name": "test-lab",
+  "version": "1.0.0",
+  "description": "Test whatever for gemsung",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenSW-Team-CONO/Test-Lab.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/OpenSW-Team-CONO/Test-Lab/issues"
+  },
+  "homepage": "https://github.com/OpenSW-Team-CONO/Test-Lab#readme",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "videoshow": "^0.1.11"
+  }
+}
