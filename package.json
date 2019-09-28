@@ -18,6 +18,7 @@
   "homepage": "https://github.com/OpenSW-Team-CONO/Test-Lab#readme",
   "dependencies": {
     "child_process": "^1.0.2",
+    "ffmpeg": "0.0.4",
     "videoshow": "^0.1.11"
   }
 }
