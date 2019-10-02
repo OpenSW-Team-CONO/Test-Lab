@@ -1,58 +1,91 @@
-import React, { Component } from 'react';
-import { Button, Image, View } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
-import { Icon } from 'native-base';
+import React from 'react'
+import { StyleSheet, Text, View, Button, ScrollView, Image } from 'react-native'
+import * as Permissions from 'expo-permissions'
+import { ImageBrowser } from 'expo-multiple-media-imagepicker'
+import { Icon } from 'native-base'
 
-export default class CreateTab extends Component {
+export default class CreateTab extends React.Component {
 
   static navigationOptions = {
-     tabBarIcon: ({ tintColor }) => (
-         <Icon name='ios-home' style={{ color: tintColor }} />
-     )
- }
-  state = {
-    image: null,
-  };
-
-  render() {
-    let { image } = this.state;
-
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this._pickImage}
-        />
-        {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-      </View>
-    );
+    tabBarIcon: ({ tintColor }) => (
+        <Icon name='ios-home' style={{ color: tintColor }} />
+    )
   }
 
-  componentDidMount() {
-    this.getPermissionAsync();
+  constructor (props) {
+    super(props)
+    this.state = {
+      imageBrowserOpen: false,
+      photos: []
+    }
   }
 
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  async componentDidMount () {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== 'granted') {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
-    }
   }
 
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-    });
+  imageBrowserCallback = (callback) => {
+    callback.then((photos) => {
+      console.log(photos)
+      this.setState({
+        imageBrowserOpen: false,
+        photos
+      })
+    }).catch((e) => console.log(e))
+  }
 
-    console.log(result);
+  renderImage (item, i) {
+    return (
+      <Image
+        style={{ height: 400, width: 400 }}
+        source={{ uri: item.uri }}
+        key={i}
+      />
+    )
+  }
 
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
+  render () {
+    if (this.state.imageBrowserOpen) {
+      return (
+        <ImageBrowser
+        max={101} // Maximum number of pickable image. default is None
+        headerCloseText={'Cancel'} // Close button text on header. default is 'Close'.
+        headerDoneText={'OK'} // Done button text on header. default is 'Done'.
+        //headerButtonColor={'#E31676'} // Button color on header.
+        headerSelectText={'Select'} // Word when picking.  default is 'n selected'.
+        //mediaSubtype={'default'} // Only iOS, Filter by MediaSubtype. default is display all.
+        //badgeColor={'#E31676'} // Badge color when picking.
+        emptyText={'None'} // Empty Text
+        callback={this.imageBrowserCallback} // Callback functinon on press Done or Cancel Button. Argument is Asset Infomartion of the picked images wrapping by the Promise.
+          />
+      )
     }
-  };
+
+    return (
+      <View style={styles.container}>
+        <Button
+          title='Choose Images'
+          onPress={() => this.setState({ imageBrowserOpen: true })}
+        />
+        <Text>This is an example of a</Text>
+        <Text>multi image selector using expo</Text>
+        <ScrollView>
+          {this.state.photos.map((item, i) => this.renderImage(item, i))}
+        </ScrollView>
+      </View>
+    )
+  }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30
+  }
+})
