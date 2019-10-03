@@ -16,46 +16,45 @@ export default class CreateTab extends React.Component {
     super(props)
     this.state = {
       imageBrowserOpen: false,
-      photos: []
+      photos: [],
+      photos_loc:[]
     }
   }
 
   async componentDidMount () {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
+        alert('권한 허용을 해주셔야 어플이 작동해요!');
       }
   }
 
   imageBrowserCallback = (callback) => {
     callback.then((photos) => {
-      console.log(photos)
+      //console.log(photos)
       this.setState({
         imageBrowserOpen: false,
         photos
       })
+      this.state.photos.map((item) => this.renderImage(item))
     }).catch((e) => console.log(e))
   }
 
-  renderImage (item, i) {
-    return (
-      <Image
-        style={{ height: 400, width: 400 }}
-        source={{ uri: item.uri }}
-        key={i}
-      />
-    )
+  renderImage = async(item)=>{
+    this.setState({
+      photos_loc:item.location
+    });
+    console.log(this.state.photos_loc)
   }
 
   render () {
     if (this.state.imageBrowserOpen) {
       return (
         <ImageBrowser
-        max={101} // Maximum number of pickable image. default is None
-        headerCloseText={'Cancel'} // Close button text on header. default is 'Close'.
-        headerDoneText={'OK'} // Done button text on header. default is 'Done'.
+        max={30} // Maximum number of pickable image. default is None
+        headerCloseText={'취소'} // Close button text on header. default is 'Close'.
+        headerDoneText={'만들기'} // Done button text on header. default is 'Done'.
         //headerButtonColor={'#E31676'} // Button color on header.
-        headerSelectText={'Select'} // Word when picking.  default is 'n selected'.
+        headerSelectText={'선택 되었습니다'} // Word when picking.  default is 'n selected'.
         //mediaSubtype={'default'} // Only iOS, Filter by MediaSubtype. default is display all.
         //badgeColor={'#E31676'} // Badge color when picking.
         emptyText={'None'} // Empty Text
@@ -67,14 +66,9 @@ export default class CreateTab extends React.Component {
     return (
       <View style={styles.container}>
         <Button
-          title='Choose Images'
+          title='새 추억 만들기'
           onPress={() => this.setState({ imageBrowserOpen: true })}
         />
-        <Text>This is an example of a</Text>
-        <Text>multi image selector using expo</Text>
-        <ScrollView>
-          {this.state.photos.map((item, i) => this.renderImage(item, i))}
-        </ScrollView>
       </View>
     )
   }

@@ -35,6 +35,14 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 const AppTabContainet = createAppContainer(AppTabNavigator);
 
 export default class Main extends Component {
+  static navigationOptions = {
+    title: 'Test-Lab',
+     headerTitleStyle: {
+        textAlign:"center",
+        flex:1
+    },
+  }
+
   render() {
     return (
       <AppTabContainet />
