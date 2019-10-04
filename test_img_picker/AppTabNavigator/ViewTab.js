@@ -11,6 +11,7 @@ export default class ViewTab extends Component {
     render() {
       const { navigation } = this.props;
         return (
+          console.log(JSON.stringify(navigation.getParam('photos_loc'))),
             <View style={style.container}>
                 <Text>{JSON.stringify(navigation.getParam('photos_loc'))}</Text>
             </View>
@@ -19,7 +20,7 @@ export default class ViewTab extends Component {
 }
 
 const style = StyleSheet.create({
-    container: {
+  container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',

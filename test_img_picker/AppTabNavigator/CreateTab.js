@@ -31,18 +31,18 @@ export default class CreateTab extends React.Component {
     callback.then((photos) => {
       this.setState({
         imageBrowserOpen: false,
-        photos
+        photos,
       })
-      this.state.photos.map((item) => this.renderImage(item))
-      this.props.navigation.navigate('ViewTab',{photos_loc:this.state.photos_loc})
+      this.state.photos.map((item) => this.renderImage(item.location))
     }).catch((e) => console.log(e))
   }
 
-  renderImage = async(item)=>{
+  renderImage = async(photos_loc)=>{
     this.setState({
-      photos_loc:item.location
+      photos_loc
     });
-    console.log(this.state.photos_lo)
+    //console.log(this.state.photos_loc)
+    this.props.navigation.navigate('ViewTab',{photos_loc:this.state.photos_loc})
   }
 
   render () {
